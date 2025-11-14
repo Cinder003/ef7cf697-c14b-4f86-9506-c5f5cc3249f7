@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./Backend
+    container_name: prospect-manager-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend/data:/usr/src/app/data
+    env_file:
+      - ./Backend/.env
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+
+  frontend:
+    build: ./Front-end
+    container_name: prospect-manager-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
